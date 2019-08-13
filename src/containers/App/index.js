@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Article from '../../components/Article';
-import Home from '../Home';
+import TaskBoard from '../TaskBoard';
 import NotFound from '../NotFound';
 import Header from '../../components/Header';
 import theme from '../../components/Styles';
@@ -14,7 +14,7 @@ function App() {
       <Article>
         <Header />
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/' component={TaskBoard} />
           <Route path='' component={NotFound} />
         </Switch>
       </Article>

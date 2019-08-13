@@ -17,12 +17,6 @@ const theme = createMuiTheme({
   status: {
     danger: 'orange',
   },
-  styleP: {
-    fontSize: '0.75rem',
-  },
-  gridRight: {
-    textAlign: 'right',
-  },
 });
 
 export default theme;

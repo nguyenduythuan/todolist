@@ -1,14 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-
-const prettierOptions = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'),
-);
-
 module.exports = {
   parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  plugins: ['prettier', 'redux-saga', 'react', 'react-hooks', 'jsx-a11y'],
   env: {
     jest: true,
     browser: true,
@@ -22,9 +13,15 @@ module.exports = {
       jsx: true,
     },
   },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   rules: {
-    'prettier/prettier': ['error', prettierOptions],
-    'arrow-body-style': [2, 'as-needed'],
+    semi: 2,
+    quotes: [2, 'single'],
+    "react/button-has-type": 2,
+    'react/prop-types': 2,
     'class-methods-use-this': 0,
     'import/imports-first': 0,
     'import/newline-after-import': 0,
@@ -34,29 +31,13 @@ module.exports = {
     'import/no-unresolved': 2,
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
-    indent: [
-      2,
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
     'jsx-a11y/aria-props': 2,
     'jsx-a11y/heading-has-content': 0,
-    'jsx-a11y/label-has-associated-control': [
-      2,
-      {
-        // NOTE: If this error triggers, either disable it or add
-        // your custom components, labels and attributes via these options
-        // See https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
-        controlComponents: ['Input'],
-      },
-    ],
     'jsx-a11y/label-has-for': 0,
     'jsx-a11y/mouse-events-have-key-events': 2,
     'jsx-a11y/role-has-required-aria-props': 2,
     'jsx-a11y/role-supports-aria-props': 2,
-    'max-len': 0,
+    'max-len': [2, { "code": 80 }],
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
     'no-console': 1,
@@ -75,15 +56,6 @@ module.exports = {
     'react/require-extension': 0,
     'react/self-closing-comp': 0,
     'react/sort-comp': 0,
-    'redux-saga/no-yield-in-race': 2,
-    'redux-saga/yield-effects': 2,
-    'require-yield': 0,
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: './internals/webpack/webpack.prod.babel.js',
-      },
-    },
-  },
+    'max-lines': [1, { "skipComments": true }],
+  }
 };
