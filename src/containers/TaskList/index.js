@@ -12,13 +12,15 @@ function TaskList(props) {
   const { taskFilter, item } = props;
   return (
     <Grid item md={4} xs={12}>
-      <Box mt={2} mb={2} >
-        <div><h3>{item.lable}</h3></div>
+      <Box mt={2} mb={2}>
+        <div>
+          <h3>{item.lable}</h3>
+        </div>
       </Box>
       <div>
-        {taskFilter.map(task => {
-          return <TaskItem key={task.id} task={task} lable={item.lable}/>;
-        })}
+        {taskFilter.map(task => (
+          <TaskItem key={task.id} task={task} lable={item.lable} />
+        ))}
       </div>
     </Grid>
   );

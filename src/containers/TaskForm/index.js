@@ -18,33 +18,31 @@ function TaskItem(props) {
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Thêm mới công việc</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Dialog Content
-        </DialogContentText>
+        <DialogContentText>Dialog Content</DialogContentText>
         <TextField
-        id="standard-name"
-        label="Name"
-        className={classes.textField}
-        // onChange={handleChange('name')}
-        margin="normal"
-      />
+          id="standard-name"
+          label="Name"
+          className={classes.textField}
+          // onChange={handleChange('name')}
+          margin="normal"
+        />
         <TextField
-        id="standard-multiline-flexible"
-        label="Multiline"
-        multiline
-        rowsMax="4"
-        // onChange={handleChange('multiline')}
-        className={classes.textField}
-        margin="normal"
-      />
+          id="standard-multiline-flexible"
+          label="Multiline"
+          multiline
+          rowsMax="4"
+          // onChange={handleChange('multiline')}
+          className={classes.textField}
+          margin="normal"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancel
-      </Button>
+        </Button>
         <Button onClick={onClose} color="primary">
           Ok
-      </Button>
+        </Button>
       </DialogActions>
     </Dialog>
   );

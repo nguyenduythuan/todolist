@@ -13,7 +13,6 @@ import Section from '../../components/Section';
 import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
 
-
 const lisTask = [
   {
     id: 1,
@@ -50,24 +49,16 @@ function App(props) {
   const renderBoard = () => {
     const xhtml = (
       <Grid container spacing={2}>
-        {
-          STATUSES.map(item => {
-            const taskFilter = lisTask.filter(task => task.status === item.id);
-            return <TaskList
-              key={item.id}
-              taskFilter={taskFilter}
-              item={item}
-            />;
-          })
-        }
+        {STATUSES.map(item => {
+          const taskFilter = lisTask.filter(task => task.status === item.id);
+          return <TaskList key={item.id} taskFilter={taskFilter} item={item} />;
+        })}
       </Grid>
     );
     return xhtml;
   };
   const renderForm = () => {
-    const xhtml = (
-      <TaskForm open={open} onClose={handleClose} />
-    );
+    const xhtml = <TaskForm open={open} onClose={handleClose} />;
     return xhtml;
   };
   return (

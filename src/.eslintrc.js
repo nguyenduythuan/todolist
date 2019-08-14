@@ -1,5 +1,14 @@
+const fs = require('fs');
+const path = require('path');
+
+const prettierOptions = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '.prettierrc'), 'utf8'),
+);
+
 module.exports = {
   parser: 'babel-eslint',
+  extends: ['airbnb', 'prettier', 'prettier/react'],
+  plugins: ['prettier', 'react-hooks', 'redux-saga', 'react'],
   env: {
     jest: true,
     browser: true,
@@ -13,15 +22,9 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
   rules: {
-    semi: 2,
-    quotes: [2, 'single'],
-    "react/button-has-type": 2,
-    'react/prop-types': 2,
+    'prettier/prettier': ['error', prettierOptions],
+    'arrow-body-style': [2, 'as-needed'],
     'class-methods-use-this': 0,
     'import/imports-first': 0,
     'import/newline-after-import': 0,
@@ -31,17 +34,19 @@ module.exports = {
     'import/no-unresolved': 2,
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
-    'jsx-a11y/aria-props': 2,
-    'jsx-a11y/heading-has-content': 0,
-    'jsx-a11y/label-has-for': 0,
-    'jsx-a11y/mouse-events-have-key-events': 2,
-    'jsx-a11y/role-has-required-aria-props': 2,
-    'jsx-a11y/role-supports-aria-props': 2,
-    'max-len': [2, { "code": 80 }],
+    indent: [
+      2,
+      2,
+      {
+        SwitchCase: 1,
+      },
+    ],
+    'max-len': 0,
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
     'no-console': 1,
     'no-unused-vars': 2,
+    'no-param-reassign': 0,
     'no-use-before-define': 0,
     'prefer-template': 2,
     'react/destructuring-assignment': 0,
@@ -56,6 +61,8 @@ module.exports = {
     'react/require-extension': 0,
     'react/self-closing-comp': 0,
     'react/sort-comp': 0,
-    'max-lines': [1, { "skipComments": true }],
-  }
+    'redux-saga/no-yield-in-race': 2,
+    'redux-saga/yield-effects': 2,
+    'require-yield': 0,
+  },
 };

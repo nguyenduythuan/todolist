@@ -20,12 +20,12 @@ function TaskItem(props) {
       <CardContent>
         <Grid container justyfi="space-between">
           <Grid item md={8}>
-            <Typography gutterBottom variant="h5" >
+            <Typography gutterBottom variant="h5">
               {task.title}
             </Typography>
           </Grid>
           <Grid item md={4} className={classes.gridRight}>
-            <Typography gutterBottom className={classes.styleP} >
+            <Typography gutterBottom className={classes.styleP}>
               {lable}
             </Typography>
           </Grid>
