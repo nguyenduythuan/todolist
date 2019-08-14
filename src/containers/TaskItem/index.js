@@ -59,7 +59,7 @@ function TaskItem(props) {
 TaskItem.propTypes = {
   classes: PropsTypes.object,
   task: PropsTypes.object,
-  lable: PropsTypes.object,
+  lable: PropsTypes.string,
 };
 
 export default withStyles(styles)(TaskItem);

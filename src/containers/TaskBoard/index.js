@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
@@ -6,12 +6,15 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import PropsTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { STATUSES } from '../../constants';
 import styles from './styles';
 import Section from '../../components/Section';
 import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
+import * as taskAction from '../../actions/task';
 
 const lisTask = [
   {
@@ -35,8 +38,13 @@ const lisTask = [
 ];
 
 function App(props) {
-  const { classes } = props;
+  const { classes, taskActions } = props;
+  const { fecthListTaskRequest } = taskActions;
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    fecthListTaskRequest();
+  }, [fecthListTaskRequest]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -88,6 +96,19 @@ function App(props) {
 
 App.propTypes = {
   classes: PropsTypes.object,
+  taskActions: PropsTypes.shape({
+    fecthListTaskRequest: PropsTypes.func,
+  }),
 };
 
-export default withStyles(styles)(App);
+const mapStateToPros = null;
+const mapDispatchToRops = dispatch => ({
+  taskActions: bindActionCreators(taskAction, dispatch),
+});
+
+export default withStyles(styles)(
+  connect(
+    mapStateToPros,
+    mapDispatchToRops,
+  )(App),
+);
