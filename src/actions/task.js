@@ -1,4 +1,4 @@
-import * as taskApis from '../apis/task';
+// import * as taskApis from '../apis/task';
 import * as taskConstants from '../constants/task';
 
 export const fecthListTask = () => ({
@@ -19,14 +19,14 @@ export const fecthListTaskFailed = error => ({
   },
 });
 
-export const fecthListTaskRequest = () => dispatch => {
-  dispatch(fecthListTask());
-  taskApis
-    .getList()
-    .then(data => {
-      dispatch(fecthListTaskSuccess(data));
-    })
-    .catch(err => {
-      dispatch(fecthListTaskFailed(err));
-    });
-};
+// export const fecthListTaskRequest = () => dispatch => {
+//   dispatch(fecthListTask());
+//   taskApis
+//     .getList()
+//     .then(response => {
+//       dispatch(fecthListTaskSuccess(response.data));
+//     })
+//     .catch(err => {
+//       dispatch(fecthListTaskFailed(err));
+//     });
+// };
