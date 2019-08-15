@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import clsx from 'clsx';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
@@ -17,16 +18,12 @@ import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
 import * as taskAction from '../../actions/task';
 import ShowLoading from '../../components/globallLoading';
+import { darkTheme } from '../../actions/darkTheme';
 
 function App(props) {
-  const [check, setCheck] = React.useState(false);
-  const { classes, taskActions } = props;
+  const { classes, taskActions, dark, themeActions, show } = props;
   const { fecthListTask } = taskActions;
   const [open, setOpen] = React.useState(false);
-
-  // useEffect(() => {
-  //   fecthListTask();
-  // }, [fecthListTask]);
 
   function loadData() {
     return fecthListTask();
@@ -38,6 +35,10 @@ function App(props) {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  function checkTheme() {
+    return themeActions();
   }
 
   const renderBoard = () => {
@@ -57,45 +58,48 @@ function App(props) {
     return xhtml;
   };
   return (
-    <div className={check ? classes.rootDark : classes.root}>
-      <Section>
-        <Box mt={2} mb={2} className={classes.boxSwith}>
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.buttonAdd}
-              onClick={loadData}
-            >
-              Load data
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.buttonAdd}
-              onClick={handleClickOpen}
-            >
-              <AddIcon /> Thêm mới công việc
-            </Button>
-          </div>
-          <FormControlLabel
-            control={
-              <Switch
-                value={false}
+    <div
+      className={clsx(classes.content, {
+        [classes.contentShift]: show,
+      })}
+    >
+      <div className={dark ? classes.rootDark : classes.root}>
+        <Section>
+          <Box mt={2} mb={2} className={classes.boxSwith}>
+            <div>
+              <Button
+                variant="contained"
                 color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
-                onChange={setCheck(true)}
-              />
-            }
-            label={!check ? 'Màu sáng' : 'Màu tối'}
-          />
-        </Box>
-      </Section>
-      <Section>{renderBoard()}</Section>
-      <Section>{renderForm()}</Section>
-      <Section>
-        <ShowLoading />
-      </Section>
+                className={classes.buttonAdd}
+                onClick={loadData}
+              >
+                Load data
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.buttonAdd}
+                onClick={handleClickOpen}
+              >
+                <AddIcon /> Thêm mới công việc
+              </Button>
+            </div>
+            <FormControlLabel
+              label="CHỦ ĐỀ MÀU TỐI"
+              className={classes.swith}
+              control={
+                <Switch checked={dark} color="primary" onChange={checkTheme} />
+              }
+              labelPlacement="start"
+            />
+          </Box>
+        </Section>
+        <Section>{renderBoard()}</Section>
+        <Section>{renderForm()}</Section>
+        <Section>
+          <ShowLoading />
+        </Section>
+      </div>
     </div>
   );
 }
@@ -106,13 +110,19 @@ App.propTypes = {
     fecthListTask: PropsTypes.func,
   }),
   listTask: PropsTypes.array,
+  themeActions: PropsTypes.func,
+  dark: PropsTypes.bool,
+  show: PropsTypes.bool,
 };
 
 const mapStateToPros = state => ({
   listTask: state.task.listTask,
+  dark: state.dark.darkTheme,
+  show: state.dark.showDrawer,
 });
 const mapDispatchToRops = dispatch => ({
   taskActions: bindActionCreators(taskAction, dispatch),
+  themeActions: bindActionCreators(darkTheme, dispatch),
 });
 
 export default withStyles(styles)(

@@ -1,28 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import PropsTypes from 'prop-types';
+
+import clsx from 'clsx';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import Drawer from '@material-ui/core/Drawer';
+import { showDrawer } from '../../actions/darkTheme';
+
 import useStyles from './styles';
 
-export default function PrimarySearchAppBar() {
-  const check = true;
+function PrimarySearchAppBar(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { dark, onDrawer } = props;
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  function getLocalStor() {
+    if (!localStorage.getItem('darkTheme')) {
+      localStorage.setItem('darkTheme', false);
+    }
+  }
+
+  useEffect(() => {
+    getLocalStor();
+  }, []);
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -39,6 +70,16 @@ export default function PrimarySearchAppBar() {
 
   function handleMobileMenuOpen(event) {
     setMobileMoreAnchorEl(event.currentTarget);
+  }
+
+  function handleDrawerOpen() {
+    setOpen(true);
+    onDrawer();
+  }
+
+  function handleDrawerClose() {
+    setOpen(false);
+    onDrawer();
   }
 
   const menuId = 'primary-search-account-menu';
@@ -69,14 +110,6 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
@@ -98,15 +131,60 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const renderDrawer = (
+    <Drawer
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={open}
+      classes={{
+        paper: !dark ? classes.drawerPaper : classes.darkDrawerPaper,
+      }}
+    >
+      <div className={classes.drawerHeader}>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'ltr' ? (
+            <ChevronLeftIcon className={dark ? classes.dark : null} />
+          ) : (
+            <ChevronRightIcon className={dark ? classes.dark : null} />
+          )}
+        </IconButton>
+      </div>
+      <Divider />
+      <List>
+        {['Inbox', 'Mail'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              {index % 2 === 0 ? (
+                <InboxIcon className={dark ? classes.dark : null} />
+              ) : (
+                <MailIcon className={dark ? classes.dark : null} />
+              )}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </Drawer>
+  );
+
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar className={check ? classes.dark : null}>
+      <CssBaseline />
+      <AppBar
+        position="static"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar className={dark ? classes.dark : null}>
           <IconButton
-            edge="start"
-            className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
@@ -128,6 +206,11 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -154,6 +237,29 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderDrawer}
     </div>
   );
 }
+
+PrimarySearchAppBar.propTypes = {
+  dark: PropsTypes.bool,
+  onDrawer: PropsTypes.func,
+};
+
+const mapStateToProps = state => ({
+  dark: state.dark.darkTheme,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onDrawer: () => {
+    dispatch(showDrawer());
+  },
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(PrimarySearchAppBar);

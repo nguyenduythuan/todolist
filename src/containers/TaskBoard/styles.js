@@ -1,4 +1,5 @@
-const styles = () => ({
+const drawerWidth = 240;
+const styles = theme => ({
   root: {
     padding: 40,
   },
@@ -13,6 +14,24 @@ const styles = () => ({
   boxSwith: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  swith: {
+    color: '#757575',
+  },
+  content: {
+    flexGrow: 1,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
 });
 

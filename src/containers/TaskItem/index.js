@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { withStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
@@ -14,10 +16,9 @@ import PropsTypes from 'prop-types';
 import styles from './styles';
 
 function TaskItem(props) {
-  const { classes, task, lable } = props;
-  const dark = false;
+  const { classes, task, lable, dark } = props;
   return (
-    <Card className={dark ? classes.card : classes.cardDark}>
+    <Card className={!dark ? classes.card : classes.cardDark}>
       <CardContent>
         <Grid container justyfi="space-between">
           <Grid item md={8}>
@@ -61,6 +62,21 @@ TaskItem.propTypes = {
   classes: PropsTypes.object,
   task: PropsTypes.object,
   lable: PropsTypes.string,
+  dark: PropsTypes.bool,
 };
 
-export default withStyles(styles)(TaskItem);
+const mapStateToProps = state => ({
+  dark: state.dark.darkTheme,
+});
+
+const mapDispatchToProps = null;
+
+const withConnet = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withStyles(styles),
+  withConnet,
+)(TaskItem);
