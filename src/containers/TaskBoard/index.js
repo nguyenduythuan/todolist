@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropsTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,8 +16,10 @@ import Section from '../../components/Section';
 import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
 import * as taskAction from '../../actions/task';
+import ShowLoading from '../../components/globallLoading';
 
 function App(props) {
+  const [check, setCheck] = React.useState(false);
   const { classes, taskActions } = props;
   const { fecthListTask } = taskActions;
   const [open, setOpen] = React.useState(false);
@@ -54,35 +57,46 @@ function App(props) {
     return xhtml;
   };
   return (
-    <Section>
-      <div>
+    <div className={check ? classes.rootDark : classes.root}>
+      <Section>
         <Box mt={2} mb={2} className={classes.boxSwith}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.buttonAdd}
-            onClick={loadData}
-          >
-            Load data
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.buttonAdd}
-            onClick={handleClickOpen}
-          >
-            <AddIcon /> Thêm mới công việc
-          </Button>
-          <Switch
-            value="checkedC"
-            color="primary"
-            inputProps={{ 'aria-label': 'primary checkbox' }}
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.buttonAdd}
+              onClick={loadData}
+            >
+              Load data
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.buttonAdd}
+              onClick={handleClickOpen}
+            >
+              <AddIcon /> Thêm mới công việc
+            </Button>
+          </div>
+          <FormControlLabel
+            control={
+              <Switch
+                value={false}
+                color="primary"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                onChange={setCheck(true)}
+              />
+            }
+            label={!check ? 'Màu sáng' : 'Màu tối'}
           />
         </Box>
-        {renderBoard()}
-        {renderForm()}
-      </div>
-    </Section>
+      </Section>
+      <Section>{renderBoard()}</Section>
+      <Section>{renderForm()}</Section>
+      <Section>
+        <ShowLoading />
+      </Section>
+    </div>
   );
 }
 

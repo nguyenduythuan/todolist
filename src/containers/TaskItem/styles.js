@@ -3,6 +3,12 @@ const styles = theme => ({
     maxWidth: '100%',
     marginBottom: 20,
   },
+  cardDark: {
+    maxWidth: '100%',
+    marginBottom: 20,
+    color: 'white !important',
+    backgroundColor: '#282828',
+  },
   fab: {
     margin: theme.spacing(1),
   },

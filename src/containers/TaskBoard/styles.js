@@ -1,6 +1,14 @@
 const styles = () => ({
+  root: {
+    padding: 40,
+  },
+  rootDark: {
+    padding: 40,
+    backgroundColor: '#121212',
+    color: '#fff',
+  },
   buttonAdd: {
-    margin: '20',
+    marginRight: 20,
   },
   boxSwith: {
     display: 'flex',

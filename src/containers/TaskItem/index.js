@@ -15,8 +15,9 @@ import styles from './styles';
 
 function TaskItem(props) {
   const { classes, task, lable } = props;
+  const dark = false;
   return (
-    <Card className={classes.card}>
+    <Card className={dark ? classes.card : classes.cardDark}>
       <CardContent>
         <Grid container justyfi="space-between">
           <Grid item md={8}>
@@ -30,7 +31,7 @@ function TaskItem(props) {
             </Typography>
           </Grid>
         </Grid>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" component="p">
           {task.description}
         </Typography>
       </CardContent>

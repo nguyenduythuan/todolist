@@ -1,5 +1,4 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import red from '@material-ui/core/colors/red';
 
 const theme = createMuiTheme({
   palette: {
@@ -11,8 +10,21 @@ const theme = createMuiTheme({
       main: '#f44336',
       contrastText: '#fff',
     },
-    dark: '#212121',
-    err: red,
+    dark: {
+      main: '#000000',
+      contrastText: '#fff',
+
+      //   background-color: #121212;
+      // color: #fff;
+
+      //   max-width: 100%;
+      // margin-bottom: 20px;
+      // background-color: #282828;
+      // color: white !important;max-width: 100%;
+      // margin-bottom: 20px;
+      // background-color: #282828;
+      // color: white !important;
+    },
   },
   status: {
     danger: 'orange',
