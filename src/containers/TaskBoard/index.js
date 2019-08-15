@@ -16,35 +16,18 @@ import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
 import * as taskAction from '../../actions/task';
 
-const lisTask = [
-  {
-    id: 1,
-    title: 'Read book',
-    description: 'Read caiLoz book',
-    status: 0,
-  },
-  {
-    id: 2,
-    title: 'Play girl',
-    description: 'With girl',
-    status: 1,
-  },
-  {
-    id: 3,
-    title: 'Play game',
-    description: 'PUBG mobile',
-    status: 2,
-  },
-];
-
 function App(props) {
   const { classes, taskActions } = props;
-  const { fecthListTaskRequest } = taskActions;
+  const { fecthListTask } = taskActions;
   const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
-    fecthListTaskRequest();
-  }, [fecthListTaskRequest]);
+  // useEffect(() => {
+  //   fecthListTask();
+  // }, [fecthListTask]);
+
+  function loadData() {
+    return fecthListTask();
+  }
 
   function handleClickOpen() {
     setOpen(true);
@@ -55,10 +38,11 @@ function App(props) {
   }
 
   const renderBoard = () => {
+    const { listTask } = props;
     const xhtml = (
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         {STATUSES.map(item => {
-          const taskFilter = lisTask.filter(task => task.status === item.id);
+          const taskFilter = listTask.filter(task => task.status === item.id);
           return <TaskList key={item.id} taskFilter={taskFilter} item={item} />;
         })}
       </Grid>
@@ -73,6 +57,14 @@ function App(props) {
     <Section>
       <div>
         <Box mt={2} mb={2} className={classes.boxSwith}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.buttonAdd}
+            onClick={loadData}
+          >
+            Load data
+          </Button>
           <Button
             variant="contained"
             color="primary"
@@ -97,11 +89,14 @@ function App(props) {
 App.propTypes = {
   classes: PropsTypes.object,
   taskActions: PropsTypes.shape({
-    fecthListTaskRequest: PropsTypes.func,
+    fecthListTask: PropsTypes.func,
   }),
+  listTask: PropsTypes.array,
 };
 
-const mapStateToPros = null;
+const mapStateToPros = state => ({
+  listTask: state.task.listTask,
+});
 const mapDispatchToRops = dispatch => ({
   taskActions: bindActionCreators(taskAction, dispatch),
 });
