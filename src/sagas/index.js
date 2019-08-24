@@ -7,14 +7,16 @@ import { showLoading, closeLoading } from '../actions/uj';
 
 function* watchFetchListTaskAction() {
   while (true) {
-    yield take(type.FETCH_TASK);
-    yield put(showLoading());
-    const resp = yield call(getList);
-    const { data, status } = resp;
-    if (status === STATUS_CODE.SUCCESS) {
-      yield put(fecthListTaskSuccess(data));
-    } else {
-      yield put(fecthListTaskFailed(data));
+    try {
+      yield take(type.FETCH_TASK);
+      yield put(showLoading());
+      const resp = yield call(getList);
+      const { data, status } = resp;
+      if (status === STATUS_CODE.SUCCESS) {
+        yield put(fecthListTaskSuccess(data));
+      }
+    } catch (error) {
+      yield put(fecthListTaskFailed(error));
     }
     yield delay(1000);
     yield put(closeLoading());

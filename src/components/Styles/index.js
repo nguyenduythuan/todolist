@@ -1,33 +1,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#3f50b5',
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: '#f44336',
-      contrastText: '#fff',
-    },
-    dark: {
-      main: '#000000',
-      contrastText: '#fff',
-
-      //   background-color: #121212;
-      // color: #fff;
-
-      //   max-width: 100%;
-      // margin-bottom: 20px;
-      // background-color: #282828;
-      // color: white !important;max-width: 100%;
-      // margin-bottom: 20px;
-      // background-color: #282828;
-      // color: white !important;
-    },
+  color: {
+    parimary: '#D32F2f',
+    secondary: '#00BCD4',
+    error: '#E64A19',
+    backgroundColor: '#fafafa',
+    bgHeader: '#2c2c2c',
+    backgroundBody: '#121212',
+    backgroundColorDark: '#282828',
+    textColorDark: 'white !important',
   },
-  status: {
-    danger: 'orange',
+  typography: {
+    fontFamily: 'Roboto',
   },
 });
 

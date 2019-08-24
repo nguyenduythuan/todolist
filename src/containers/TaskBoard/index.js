@@ -17,24 +17,38 @@ import Section from '../../components/Section';
 import TaskList from '../TaskList';
 import TaskForm from '../TaskForm';
 import * as taskAction from '../../actions/task';
+import * as modalAction from '../../actions/modal';
 import ShowLoading from '../../components/globallLoading';
 import { darkTheme } from '../../actions/darkTheme';
 
 function App(props) {
-  const { classes, taskActions, dark, themeActions, show } = props;
+  const {
+    classes,
+    taskActions,
+    dark,
+    themeActions,
+    show,
+    modalActions,
+    shModel,
+  } = props;
   const { fecthListTask } = taskActions;
-  const [open, setOpen] = React.useState(false);
+  const { showModal, hideModal } = modalActions;
+  // const [open, setOpen] = React.useState(false);
 
-  function loadData() {
-    return fecthListTask();
-  }
+  // function loadData() {
+  //   return fecthListTask();
+  // }
+
+  useEffect(() => {
+    fecthListTask();
+  }, [fecthListTask]);
 
   function handleClickOpen() {
-    setOpen(true);
+    showModal();
   }
 
   function handleClose() {
-    setOpen(false);
+    hideModal();
   }
 
   function checkTheme() {
@@ -54,7 +68,7 @@ function App(props) {
     return xhtml;
   };
   const renderForm = () => {
-    const xhtml = <TaskForm open={open} onClose={handleClose} />;
+    const xhtml = <TaskForm dark={dark} open={shModel} onClose={handleClose} />;
     return xhtml;
   };
   return (
@@ -67,14 +81,14 @@ function App(props) {
         <Section>
           <Box mt={2} mb={2} className={classes.boxSwith}>
             <div>
-              <Button
+              {/* <Button
                 variant="contained"
                 color="primary"
                 className={classes.buttonAdd}
                 onClick={loadData}
               >
                 Load data
-              </Button>
+              </Button> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -113,16 +127,23 @@ App.propTypes = {
   themeActions: PropsTypes.func,
   dark: PropsTypes.bool,
   show: PropsTypes.bool,
+  shModel: PropsTypes.bool,
+  modalActions: PropsTypes.shape({
+    showModal: PropsTypes.func,
+    hideModal: PropsTypes.func,
+  }),
 };
 
 const mapStateToPros = state => ({
   listTask: state.task.listTask,
   dark: state.dark.darkTheme,
   show: state.dark.showDrawer,
+  shModel: state.modal.showModal,
 });
 const mapDispatchToRops = dispatch => ({
   taskActions: bindActionCreators(taskAction, dispatch),
   themeActions: bindActionCreators(darkTheme, dispatch),
+  modalActions: bindActionCreators(modalAction, dispatch),
 });
 
 export default withStyles(styles)(

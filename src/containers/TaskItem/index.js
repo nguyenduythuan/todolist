@@ -19,7 +19,7 @@ function TaskItem(props) {
   const { classes, task, lable, dark } = props;
   return (
     <Card className={!dark ? classes.card : classes.cardDark}>
-      <CardContent>
+      <CardContent className={classes.cardTitle}>
         <Grid container justyfi="space-between">
           <Grid item md={8}>
             <Typography gutterBottom variant="h5">

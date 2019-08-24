@@ -2,12 +2,20 @@ const styles = theme => ({
   card: {
     maxWidth: '100%',
     marginBottom: 20,
+    minHeight: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   cardDark: {
     maxWidth: '100%',
     marginBottom: 20,
-    color: 'white !important',
-    backgroundColor: '#282828',
+    color: theme.color.textColorDark,
+    backgroundColor: theme.color.backgroundColorDark,
+    minHeight: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   fab: {
     margin: theme.spacing(1),
@@ -17,6 +25,9 @@ const styles = theme => ({
   },
   gridRight: {
     textAlign: 'right',
+  },
+  cardTitle: {
+    flexGrow: 1,
   },
 });
 

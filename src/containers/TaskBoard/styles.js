@@ -5,8 +5,8 @@ const styles = theme => ({
   },
   rootDark: {
     padding: 40,
-    backgroundColor: '#121212',
-    color: '#fff',
+    backgroundColor: theme.color.backgroundBody,
+    color: theme.color.textColorDark,
   },
   buttonAdd: {
     marginRight: 20,

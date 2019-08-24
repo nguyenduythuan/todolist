@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   dark: {
-    backgroundColor: '#2c2c2c',
-    color: '#fafafa',
+    backgroundColor: theme.color.bgHeader,
+    color: theme.color.backgroundColor,
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
