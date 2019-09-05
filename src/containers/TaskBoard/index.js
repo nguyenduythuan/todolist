@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropsTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import { STATUSES } from '../../constants';
 import styles from './styles';
@@ -29,15 +29,9 @@ function App(props) {
     themeActions,
     show,
     modalActions,
-    shModel,
   } = props;
   const { fecthListTask } = taskActions;
-  const { showModal, hideModal } = modalActions;
-  // const [open, setOpen] = React.useState(false);
-
-  // function loadData() {
-  //   return fecthListTask();
-  // }
+  const { showModal, getModalTitle, getModalContent } = modalActions;
 
   useEffect(() => {
     fecthListTask();
@@ -45,10 +39,8 @@ function App(props) {
 
   function handleClickOpen() {
     showModal();
-  }
-
-  function handleClose() {
-    hideModal();
+    getModalTitle('Thêm mới công việc');
+    getModalContent(<TaskForm />);
   }
 
   function checkTheme() {
@@ -67,10 +59,7 @@ function App(props) {
     );
     return xhtml;
   };
-  const renderForm = () => {
-    const xhtml = <TaskForm dark={dark} open={shModel} onClose={handleClose} />;
-    return xhtml;
-  };
+
   return (
     <div
       className={clsx(classes.content, {
@@ -81,14 +70,6 @@ function App(props) {
         <Section>
           <Box mt={2} mb={2} className={classes.boxSwith}>
             <div>
-              {/* <Button
-                variant="contained"
-                color="primary"
-                className={classes.buttonAdd}
-                onClick={loadData}
-              >
-                Load data
-              </Button> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -109,7 +90,6 @@ function App(props) {
           </Box>
         </Section>
         <Section>{renderBoard()}</Section>
-        <Section>{renderForm()}</Section>
         <Section>
           <ShowLoading />
         </Section>
@@ -127,10 +107,11 @@ App.propTypes = {
   themeActions: PropsTypes.func,
   dark: PropsTypes.bool,
   show: PropsTypes.bool,
-  shModel: PropsTypes.bool,
   modalActions: PropsTypes.shape({
     showModal: PropsTypes.func,
     hideModal: PropsTypes.func,
+    getModalTitle: PropsTypes.func,
+    getModalContent: PropsTypes.func,
   }),
 };
 
@@ -146,9 +127,12 @@ const mapDispatchToRops = dispatch => ({
   modalActions: bindActionCreators(modalAction, dispatch),
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStateToPros,
-    mapDispatchToRops,
-  )(App),
+const withConnect = connect(
+  mapStateToPros,
+  mapDispatchToRops,
 );
+
+export default compose(
+  withStyles(styles),
+  withConnect,
+)(App);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
@@ -14,9 +14,30 @@ import Grid from '@material-ui/core/Grid';
 import PropsTypes from 'prop-types';
 
 import styles from './styles';
+import { deleteTask, getTaskEdit } from '../../actions/task';
+import * as modalAction from '../../actions/modal';
+import EditForm from '../TaskForm/editForm';
 
 function TaskItem(props) {
-  const { classes, task, lable, dark } = props;
+  const {
+    classes,
+    task,
+    lable,
+    dark,
+    onDeleteTask,
+    modalActions,
+    onEditTask,
+  } = props;
+  const { showModal, getModalTitle, getModalContent } = modalActions;
+  function onDelete(id) {
+    onDeleteTask(id);
+  }
+  function onEdit(value) {
+    showModal();
+    getModalTitle('Chỉnh sửa công việc');
+    onEditTask(value);
+    getModalContent(<EditForm />);
+  }
   return (
     <Card className={!dark ? classes.card : classes.cardDark}>
       <CardContent className={classes.cardTitle}>
@@ -42,6 +63,7 @@ function TaskItem(props) {
           color="primary"
           aria-label="edit"
           className={classes.fab}
+          onClick={() => onEdit(task)}
         >
           <Icon>edit_icon</Icon>
         </Fab>
@@ -50,6 +72,7 @@ function TaskItem(props) {
           color="secondary"
           aria-label="delete"
           className={classes.fab}
+          onClick={() => onDelete(task.id)}
         >
           <DeleteIcon />
         </Fab>
@@ -63,13 +86,25 @@ TaskItem.propTypes = {
   task: PropsTypes.object,
   lable: PropsTypes.string,
   dark: PropsTypes.bool,
+  onDeleteTask: PropsTypes.func,
+  modalActions: PropsTypes.shape({
+    showModal: PropsTypes.func,
+    hideModal: PropsTypes.func,
+    getModalTitle: PropsTypes.func,
+    getModalContent: PropsTypes.func,
+  }),
+  onEditTask: PropsTypes.func,
 };
 
 const mapStateToProps = state => ({
   dark: state.dark.darkTheme,
 });
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = dispatch => ({
+  onDeleteTask: id => dispatch(deleteTask(id)),
+  modalActions: bindActionCreators(modalAction, dispatch),
+  onEditTask: item => dispatch(getTaskEdit(item)),
+});
 
 const withConnet = connect(
   mapStateToProps,

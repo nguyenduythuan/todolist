@@ -9,6 +9,7 @@ import TaskBoard from '../TaskBoard';
 import NotFound from '../NotFound';
 import Header from '../../components/Header';
 import theme from '../../components/Styles';
+import ModalForm from '../TodoModal';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/" component={TaskBoard} />
           <Route path="" component={NotFound} />
         </Switch>
+        <ModalForm />
       </Article>
     </ThemeProvider>
   );

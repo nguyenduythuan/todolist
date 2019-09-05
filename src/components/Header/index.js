@@ -31,12 +31,13 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Drawer from '@material-ui/core/Drawer';
 import { showDrawer } from '../../actions/darkTheme';
+import { filterTask } from '../../actions/task';
 
 import useStyles from './styles';
 
 function PrimarySearchAppBar(props) {
   const classes = useStyles();
-  const { dark, onDrawer } = props;
+  const { dark, onDrawer, onFilterTask } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const theme = useTheme();
@@ -50,6 +51,10 @@ function PrimarySearchAppBar(props) {
       localStorage.setItem('darkTheme', false);
     }
   }
+
+  const hendelChanger = event => {
+    onFilterTask(event.target.value);
+  };
 
   useEffect(() => {
     getLocalStor();
@@ -202,6 +207,7 @@ function PrimarySearchAppBar(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={hendelChanger}
             />
           </div>
           <div className={classes.grow} />
@@ -245,6 +251,7 @@ function PrimarySearchAppBar(props) {
 PrimarySearchAppBar.propTypes = {
   dark: PropsTypes.bool,
   onDrawer: PropsTypes.func,
+  onFilterTask: PropsTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -254,6 +261,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onDrawer: () => {
     dispatch(showDrawer());
+  },
+  onFilterTask: values => {
+    dispatch(filterTask(values));
   },
 });
 

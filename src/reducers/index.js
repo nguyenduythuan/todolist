@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
+import { reducer as fromReducer } from 'redux-form';
 
 import taskReducer from './task';
 import history from '../utils/history';
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   loading: loadingReducer,
   dark: reduceDarkTheme,
   modal: modalReducers,
+  form: fromReducer,
 });
 
 export default rootReducer;

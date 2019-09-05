@@ -9,23 +9,28 @@ import { Grid, Button } from '@material-ui/core';
 
 import styles from './styles';
 import { hideModal } from '../../actions/modal';
-import { addTask } from '../../actions/task';
+import { editTask } from '../../actions/task';
 import renderTextField from '../../components/FormHelper/TextFiled';
 import validate from './validate';
 
-function TaskForm(props) {
+function EditForm(props) {
   const {
     classes,
     onHideModal,
     handleSubmit,
     invalid,
     submitting,
-    taskAction,
+    onEditTask,
+    initialValues,
   } = props;
 
   function handleSubmitForm(data) {
-    const { title, description } = data;
-    taskAction(title, description);
+    const task = {
+      ...data,
+      status: Number(data.status),
+      id: initialValues.id,
+    };
+    onEditTask(task);
   }
 
   return (
@@ -51,6 +56,23 @@ function TaskForm(props) {
             component={renderTextField}
           />
         </Grid>
+        <Grid item md={12}>
+          <Field
+            select
+            name="status"
+            className={classes.textField}
+            SelectProps={{
+              native: true,
+            }}
+            helperText="Tiến độ công việc"
+            margin="normal"
+            component={renderTextField}
+          >
+            <option value={0}>Ready</option>
+            <option value={1}>In profress</option>
+            <option value={2}>Completed</option>
+          </Field>
+        </Grid>
         <Grid item md={12} className={classes.gridBt}>
           <Button
             className={classes.btLeft}
@@ -75,34 +97,44 @@ function TaskForm(props) {
   );
 }
 
-TaskForm.propTypes = {
+EditForm.propTypes = {
   classes: PropsTypes.object,
   onHideModal: PropsTypes.func,
   handleSubmit: PropsTypes.func,
   invalid: PropsTypes.bool,
   submitting: PropsTypes.bool,
-  taskAction: PropsTypes.func,
+  onEditTask: PropsTypes.func,
+  initialValues: PropsTypes.object,
 };
 
 const mapDispatchToProps = dispatch => ({
   onHideModal: bindActionCreators(hideModal, dispatch),
-  taskAction: bindActionCreators(addTask, dispatch),
+  onEditTask: task => dispatch(editTask(task)),
 });
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
+const mapStateToProps = state => ({
+  initialValues: {
+    title: state.task.taskEdit.title,
+    status: state.task.taskEdit.status,
+    description: state.task.taskEdit.description,
+    id: state.task.taskEdit.id,
+  },
+});
 
-const FORM_NAME = 'TASK_MANAGEMENT';
+const FORM_NAME = 'TASK_EDIT';
 
 const withReduxForm = reduxForm({
   form: FORM_NAME,
   validate,
 });
 
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
 export default compose(
   withStyles(styles),
   withConnect,
   withReduxForm,
-)(TaskForm);
+)(EditForm);
