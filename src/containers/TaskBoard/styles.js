@@ -7,6 +7,7 @@ const styles = theme => ({
     padding: 40,
     backgroundColor: theme.color.backgroundBody,
     color: theme.color.textColorDark,
+    height: '100vh',
   },
   buttonAdd: {
     marginRight: 20,

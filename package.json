@@ -2,6 +2,7 @@
   "name": "demo-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nguyenduythuan.github.io/demo-app/",
   "dependencies": {
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
@@ -9,6 +10,7 @@
     "connected-react-router": "^6.5.2",
     "eslint-plugin-flow": "^2.29.1",
     "fs": "0.0.1-security",
+    "gh-pages": "^2.1.1",
     "history": "^4.9.0",
     "path": "^0.12.7",
     "query-string": "^6.8.3",
@@ -31,7 +33,9 @@
     "eject": "react-scripts eject",
     "linting": "eslint src",
     "prettier": "prettier \"src/**/*.{js,css}\"",
-    "format": "npm run prettier -- --write"
+    "format": "npm run prettier -- --write",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
