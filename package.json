@@ -2,7 +2,7 @@
   "name": "demo-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nguyenduythuan.github.io/demo-app/",
+  "homepage": "https://nguyenduythuan.github.io/todolist-reactjs/",
   "dependencies": {
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
@@ -35,7 +35,7 @@
     "prettier": "prettier \"src/**/*.{js,css}\"",
     "format": "npm run prettier -- --write",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -b master -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
